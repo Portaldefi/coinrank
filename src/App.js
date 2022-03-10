@@ -1,24 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import { Container, Grid, Header, Image } from 'semantic-ui-react';
+import TableSortable from './components/table';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className='App'>
+      <Header className="App-header" as='h1' inverted textAlign='center'>
+        <Image src="https://portaldefi.com/assets/portal-logo.gif" alt="Portal Logo" />
+        <span>Token List</span>
+      </Header>
+      <Grid textAlign='center' className="App-body">
+        <Grid.Row>
+          <Grid.Column>
+            <TableSortable />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Container>
   );
 }
 

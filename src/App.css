@@ -1,3 +1,7 @@
+body {
+  background-image: linear-gradient(50deg, #075F91 30%, #941662 120%);
+}
+
 .App {
   text-align: center;
 }
@@ -14,18 +18,34 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  min-height: 25vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  font-family: 'AvenirNext-DemiBold';
+}
+.App-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  font-family: "AvenirNext-Medium";
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.tokenName {
+
+}
+
+.tokenName img {
+  height: inherit;
 }
 
 @keyframes App-logo-spin {

@@ -1,3 +1,35 @@
+@font-face {
+  font-family: "AvenirNext-Medium";
+  src: local("AvenirLTStd-Medium"),
+    
+  url("./font/AvenirLTStd-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "AvenirNextLTPro-Bold";
+  src: local("AvenirNextLTPro-Bold"),
+    
+  url("./font/AvenirNextLTPro-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "AvenirNextLTPro-Demi";
+  src: local("AvenirNextLTPro-Demi"),
+    
+  url("./font/AvenirNextLTPro-Demi.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/webfonts/fa-brands-400.woff2")
+      format("woff2"),
+    url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/webfonts/fa-brands-400.ttf")
+      format("truetype");
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
