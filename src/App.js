@@ -1,6 +1,7 @@
 import './App.css';
 import { Container, Grid, Header, Image } from 'semantic-ui-react';
 import TableSortable from './components/table';
+import TableFilter from './components/filter'
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Grid textAlign='center' className="App-body">
         <Grid.Row>
           <Grid.Column>
+            <TableFilter />
             <TableSortable />
           </Grid.Column>
         </Grid.Row>
