@@ -8,7 +8,9 @@ const tableData = [
   { name: 'Cosmos', chain: 'osmosis', symbol: 'ATOM', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3794.png', tags: [], address: "cosmosxxxxxxxxxxxxxxxx" },
   { name: 'Dogecoin', chain: 'ethereum', symbol: 'renDOGE', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/74.png', tags: [], address: "0x3832d2F059E55934220881F831bE501D180671A7" },
   { name: 'Ethereum', chain: 'ethereum', symbol: 'ETH', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png', tags: [], address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" },
-]
+];
+// 4k+ tokens
+// name symbol address  decimals logoURI chainID lists listLength urlOfList 
 
 function tokenReducer(state, action) {
   switch (action.type) {
