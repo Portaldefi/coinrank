@@ -3,10 +3,10 @@ import React from 'react'
 import { Table, Icon } from 'semantic-ui-react'
 
 const tableData = [
-  { name: 'Bitcoin', price: 35000, ticker: 'BTC', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png' },
-  { name: 'Ethereum', price: 2000, ticker: 'ETH', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png' },
-  { name: 'Cosmos', price: 30, ticker: 'ATOM', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3794.png' },
-  { name: 'Dogecoin', price: 0.21, ticker: 'DOGE', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/74.png' },
+  { name: 'Bitcoin', chain: 'bitcoin', symbol: 'BTC', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png', tags: [], address: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" },
+  { name: 'Ethereum', chain: 'ethereum', symbol: 'ETH', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png', tags: [], address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" },
+  { name: 'Cosmos', chain: 'osmosis', symbol: 'ATOM', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3794.png', tags: [], address: "cosmosxxxxxxxxxxxxxxxx" },
+  { name: 'Dogecoin', chain: 'ethereum', symbol: 'renDOGE', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/74.png', tags: [], address: "0x3832d2F059E55934220881F831bE501D180671A7" },
 ]
 
 function tokenReducer(state, action) {
@@ -47,7 +47,7 @@ function TableSortable() {
     data: tableData,
     direction: null,
   })
-  const { column, data, direction } = state
+  const { column, data, direction, address } = state
 
   return (
     <Table sortable celled fixed>
@@ -60,24 +60,31 @@ function TableSortable() {
             Name
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'price' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'price' })}
+            sorted={column === 'symbol' ? direction : null}
+            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'symbol' })}
             textAlign='right'
           >
-            Price
+            Symbol
           </Table.HeaderCell>
           <Table.HeaderCell
-            sorted={column === 'ticker' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'ticker' })}
+            sorted={column === 'chain' ? direction : null}
+            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'chain' })}
             textAlign='right'
           >
-            Change %
+            Chain
+          </Table.HeaderCell>
+          <Table.HeaderCell
+            sorted={column === 'address' ? direction : null}
+            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'address' })}
+            textAlign='right'
+          >
+            Address
           </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       
       <Table.Body>
-        {data.map(({ price, ticker, name, icon }) => (
+        {data.map(({ chain, symbol, name, icon, address, tags }) => (
           <Table.Row key={name}>
             <Table.Cell className="tokenName">
               <h4 className="ui image header">
@@ -86,12 +93,15 @@ function TableSortable() {
                      className="ui mini rounded image" />
                 <div className="content">
                   {name}
-                  <div className="sub header">{ticker}</div>
+                  <div className="sub header">{symbol}</div>
                 </div>
               </h4>
             </Table.Cell>
-            <Table.Cell textAlign='right'>${price.toFixed(2).toLocaleString()}</Table.Cell>
-            <Table.Cell textAlign='right'>{changePercentage()}%</Table.Cell>
+            {/* <Table.Cell textAlign='right'>${chain.toFixed(2).toLocaleString()}</Table.Cell> */}
+            {/* <Table.Cell textAlign='right'>{changePercentage()}%</Table.Cell> */}
+            <Table.Cell textAlign='right'>{symbol}</Table.Cell>
+            <Table.Cell textAlign='right'>{chain}</Table.Cell>
+            <Table.Cell textAlign='right'>{address}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
