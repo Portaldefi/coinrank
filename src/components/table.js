@@ -53,10 +53,10 @@ function TableSortable() {
   const { column, data, direction, address } = state
 
   return (
-    <Table sortable celled fixed>
+    <Table sortable celled className='tableList'>
       <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell
+        <Table.Row >
+          <Table.HeaderCell className='theadL'
             sorted={column === 'name' ? direction : null}
             onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'name' })}
           >
@@ -76,7 +76,7 @@ function TableSortable() {
           >
             Chain
           </Table.HeaderCell>
-          <Table.HeaderCell
+          <Table.HeaderCell className='theadR'
             sorted={column === 'address' ? direction : null}
             onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'address' })}
             textAlign='right'
