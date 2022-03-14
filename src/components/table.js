@@ -50,6 +50,11 @@ function TableSortable() {
     data: tableData,
     direction: null,
   })
+  const dispatchFunction = (e) => {
+    // Only enable sorting for smaller lists
+    if(data.length < 1000) dispatch(e);
+
+  }
   const { column, data, direction, address } = state
 
   return (
@@ -58,27 +63,27 @@ function TableSortable() {
         <Table.Row >
           <Table.HeaderCell className='theadL'
             sorted={column === 'name' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'name' })}
+            onClick={() => dispatchFunction({ type: 'CHANGE_SORT', column: 'name' })}
           >
             Name
           </Table.HeaderCell>
           <Table.HeaderCell
             sorted={column === 'symbol' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'symbol' })}
+            onClick={() => dispatchFunction({ type: 'CHANGE_SORT', column: 'symbol' })}
             textAlign='right'
           >
             Symbol
           </Table.HeaderCell>
           <Table.HeaderCell
             sorted={column === 'chain' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'chain' })}
+            onClick={() => dispatchFunction({ type: 'CHANGE_SORT', column: 'chain' })}
             textAlign='right'
           >
             Chain
           </Table.HeaderCell>
           <Table.HeaderCell className='theadR'
             sorted={column === 'address' ? direction : null}
-            onClick={() => dispatch({ type: 'CHANGE_SORT', column: 'address' })}
+            onClick={() => dispatchFunction({ type: 'CHANGE_SORT', column: 'address' })}
             textAlign='right'
           >
             Address
