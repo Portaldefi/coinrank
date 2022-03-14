@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React from 'react'
-import { Search, Grid, Header, Segment, Dropdown, Button } from 'semantic-ui-react'
+import { Search, Grid, Header, Segment, Dropdown, Icon, Input, Button } from 'semantic-ui-react'
 
 const listOptions = [
   {
@@ -201,6 +201,7 @@ function TableFilter() {
     <Grid>
       <Grid.Row>
         <Grid.Column width={8}>
+          <Header size='small' textAlign='left' style={{color: '#fff'}}>Select source:</Header>
           <Dropdown
             placeholder='List Source'
             fluid
@@ -208,9 +209,11 @@ function TableFilter() {
             search
             selection
             options={listOptions}
+            className='dropdownMenu'
           />
           </Grid.Column>
           <Grid.Column width={8}>
+          <Header size='small' textAlign='left' style={{color: '#fff'}}>Select chain:</Header>
           <Dropdown
             placeholder='Chain'
             fluid
@@ -218,11 +221,12 @@ function TableFilter() {
             search
             selection
             options={chainOptions}
+            className='dropdownMenu'
           />
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
-        <Grid.Column floated='left' width={2} textAlign='left' verticalAlign='bottom' style={{color: '#fff'}}>
+        <Grid.Column floated='left' width={3} textAlign='left' verticalAlign='bottom' style={{color: '#fff'}}>
             &nbsp;Show {' '}
             <Dropdown 
               inline
@@ -230,8 +234,9 @@ function TableFilter() {
               defaultValue={showOptions[0].value}
             />
         </Grid.Column>
-        <Grid.Column floated='right' width={5} textAlign='right' verticalAlign='bottom' >
-          <Search
+        <Grid.Column floated='right' width={8} textAlign='right' verticalAlign='bottom' >
+          <Search className='searchBox'
+            fluid
             loading={loading}
             placeholder='Search...'
             onResultSelect={(e, data) =>
@@ -239,8 +244,7 @@ function TableFilter() {
             }
             onSearchChange={handleSearchChange}
             results={results}
-            value={value}
-          />
+            value={value} />
         </Grid.Column>
       </Grid.Row>
     </Grid>
