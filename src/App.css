@@ -55,14 +55,6 @@ body {
   transition: height 1s, opacity 0.2s, margin 0.25s;
   transition-timing-function: ease-in;
 }
-.hideFilters {
-  height:0px;
-  opacity:0;
-  margin-top: 0em;
-  margin-bottom:0em;
-  transition: height 1s, opacity 0.1s, margin 0.2s;
-  transition-timing-function: ease-in;
-}
 
 .searchBox .input {
   width: -webkit-fill-available;

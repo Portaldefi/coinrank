@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, { useState } from 'react'
-import { Search, Grid, Header, Segment, Dropdown, Icon, Input, Button } from 'semantic-ui-react'
+import { Search, Grid, Header, Segment, Transition, Dropdown, Icon, Input, Button } from 'semantic-ui-react'
 
 const listOptions = [
   {
@@ -238,32 +238,39 @@ function TableFilter() {
         </Grid.Column>
       </Grid.Row>
 
-      { showFilters && <Grid.Row className={'filterOptions ' +(!showFilters ? 'hideFilters' : '')}>
-        <Grid.Column width={8}>
-          <Header size='small' textAlign='left' style={{color: '#fff'}}>Select source:</Header>
-          <Dropdown
-            placeholder='List Source'
-            fluid
-            multiple
-            search
-            selection
-            options={listOptions}
-            className='dropdownMenu'
-          />
-        </Grid.Column>
-        <Grid.Column width={8}>
-          <Header size='small' textAlign='left' style={{color: '#fff'}}>Select chain:</Header>
-          <Dropdown
-            placeholder='Chain'
-            fluid
-            multiple
-            search
-            selection
-            options={chainOptions}
-            className='dropdownMenu'
-          />
-        </Grid.Column>
-      </Grid.Row>}
+      <Transition 
+        visible={showFilters}
+        animation='slide down'
+        duration={400}
+        unmountOnHide={true}
+      >          
+        <Grid.Row className='filterOptions'>
+          <Grid.Column width={8}>
+            <Header size='small' textAlign='left' style={{color: '#fff'}}>Select source:</Header>
+            <Dropdown
+              placeholder='List Source'
+              fluid
+              multiple
+              search
+              selection
+              options={listOptions}
+              className='dropdownMenu'
+            />
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Header size='small' textAlign='left' style={{color: '#fff'}}>Select chain:</Header>
+            <Dropdown
+              placeholder='Chain'
+              fluid
+              multiple
+              search
+              selection
+              options={chainOptions}
+              className='dropdownMenu'
+            />
+          </Grid.Column>
+        </Grid.Row>
+      </Transition>
     </Grid>
   )
 }
