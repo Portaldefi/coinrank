@@ -90,7 +90,7 @@ const chainOptions = [
   {
     key: 'ethereum',
     text: 'Ethereum',
-    value: 'ethereum',
+    value: '1',
 
   },
   {

@@ -1,6 +1,12 @@
-import _ from 'lodash'
-import React from 'react'
-import { Table, Icon } from 'semantic-ui-react'
+import _ from 'lodash';
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { Table, Icon } from 'semantic-ui-react';
+
+// Fabric Types
+// import FabricComponent from '@fabric/http';
+
+import { retrieveLists, retrieveChainId, findItemsByText, changeSort } from '../slices/lists'
 
 const tableData = [
   { name: 'Bitcoin', chain: 'bitcoin', symbol: 'BTC', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png', tags: [], address: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" },
@@ -12,109 +18,128 @@ const tableData = [
 // 4k+ tokens
 // name symbol address  decimals logoURI chainID lists listLength urlOfList 
 
-function tokenReducer(state, action) {
-  switch (action.type) {
-    case 'CHANGE_SORT':
-      if (state.column === action.column) {
-        return {
-          ...state,
-          data: state.data.slice().reverse(),
-          direction:
-            state.direction === 'ascending' ? 'descending' : 'ascending',
-        }
-      }
 
-      return {
-        column: action.column,
-        data: _.sortBy(state.data, [action.column]),
-        direction: 'ascending',
-      }
-    default:
-      throw new Error()
+
+class TableSortable extends Component {
+  constructor(props) {
+    super(props);
+
+
+    this.state = Object.assign({
+      column: null,
+      data: [],
+      direction: null,
+      address: null,
+    });
   }
-}
 
-function changePercentage() {
-  const percentage = Math.floor(Math.random() * 201) - 100;
-  return (
-    <span color={(percentage > 0 ? 'green': 'red')}>
-      <Icon name={"caret "+(percentage > 0 ? 'up': 'down')} color={(percentage > 0 ? 'green': 'red')} />
-      {percentage.toString().replace(/-(?=\d)/,"")}
-    </span>
-    );
-}
+  componentDidMount() {
+    this.props.retrieveChainId(1);
+  }
 
-function TableSortable() {
-  const [state, dispatch] = React.useReducer(tokenReducer, {
-    column: null,
-    data: tableData,
-    direction: null,
-  })
-  const dispatchFunction = (e) => {
+  shouldComponentUpdate(nextProps) {
+    if (!_.isEqual(this.props.lists, nextProps.lists)) {
+      return true;
+    }
+    return false;
+  }
+  
+  dispatchFunction = (e) => {
     // Only enable sorting for smaller lists
-    if(data.length < 1000) dispatch(e);
+    if(this.props.data.length < 1000) this.dispatch(e);
 
   }
-  const { column, data, direction, address } = state
 
-  return (
-    <Table sortable celled className='tableList'>
-      <Table.Header>
-        <Table.Row >
-          <Table.HeaderCell className='theadL'
-            sorted={column === 'name' ? direction : null}
-            onClick={() => dispatchFunction({ type: 'CHANGE_SORT', column: 'name' })}
-          >
-            Name
-          </Table.HeaderCell>
-          <Table.HeaderCell
-            sorted={column === 'symbol' ? direction : null}
-            onClick={() => dispatchFunction({ type: 'CHANGE_SORT', column: 'symbol' })}
-            textAlign='right'
-          >
-            Symbol
-          </Table.HeaderCell>
-          <Table.HeaderCell
-            sorted={column === 'chain' ? direction : null}
-            onClick={() => dispatchFunction({ type: 'CHANGE_SORT', column: 'chain' })}
-            textAlign='right'
-          >
-            Chain
-          </Table.HeaderCell>
-          <Table.HeaderCell className='theadR'
-            sorted={column === 'address' ? direction : null}
-            onClick={() => dispatchFunction({ type: 'CHANGE_SORT', column: 'address' })}
-            textAlign='right'
-          >
-            Address
-          </Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      
-      <Table.Body>
-        {data.map(({ chain, symbol, name, icon, address, tags }) => (
-          <Table.Row key={name}>
-            <Table.Cell className="tokenName">
-              <h4 className="ui image header">
-                <img src={icon} 
-                     alt={name + " icon"}
-                     className="ui mini rounded image" />
-                <div className="content">
-                  {name}
-                  <div className="sub header">{symbol}</div>
-                </div>
-              </h4>
-            </Table.Cell>
-            {/* <Table.Cell textAlign='right'>${chain.toFixed(2).toLocaleString()}</Table.Cell> */}
-            {/* <Table.Cell textAlign='right'>{changePercentage()}%</Table.Cell> */}
-            <Table.Cell textAlign='right'>{symbol}</Table.Cell>
-            <Table.Cell textAlign='right'>{chain}</Table.Cell>
-            <Table.Cell textAlign='right'>{address}</Table.Cell>
+  changePercentage() {
+    const percentage = Math.floor(Math.random() * 201) - 100;
+    return (
+      <span color={(percentage > 0 ? 'green': 'red')}>
+        <Icon name={"caret "+(percentage > 0 ? 'up': 'down')} color={(percentage > 0 ? 'green': 'red')} />
+        {percentage.toString().replace(/-(?=\d)/,"")}
+      </span>
+      );
+  }
+
+  tokenRenderer(token) {
+    const { chain, symbol, name, logoURI, address, tags } = token;
+    return (
+      <Table.Row key={name}>
+        <Table.Cell className="tokenName">
+          <h4 className="ui image header">
+            <img src={logoURI} 
+                alt={name + " icon"}
+                className="ui mini rounded image" />
+            <div className="content">
+              {name}
+              <div className="sub header">{symbol}</div>
+            </div>
+          </h4>
+        </Table.Cell>
+        {/* <Table.Cell textAlign='right'>${chain.toFixed(2).toLocaleString()}</Table.Cell> */}
+        {/* <Table.Cell textAlign='right'>{changePercentage()}%</Table.Cell> */}
+        <Table.Cell textAlign='right'>{symbol}</Table.Cell>
+        <Table.Cell textAlign='right'>{chain}</Table.Cell>
+        <Table.Cell textAlign='right'>{address}</Table.Cell>
+      </Table.Row>
+    );
+  }
+
+  render() {
+    const { column, direction, data } = this.state;
+    const { lists } = this.props;
+    console.log(lists);
+
+    return (
+      <Table sortable celled className='tableList'>
+        <Table.Header>
+          <Table.Row >
+            <Table.HeaderCell className='theadL'
+              sorted={column === 'name' ? direction : null}
+              onClick={() => this.dispatchFunction({ type: 'CHANGE_SORT', column: 'name' })}
+            >
+              Name
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column === 'symbol' ? direction : null}
+              onClick={() => this.dispatchFunction({ type: 'CHANGE_SORT', column: 'symbol' })}
+              textAlign='right'
+            >
+              Symbol
+            </Table.HeaderCell>
+            <Table.HeaderCell
+              sorted={column === 'chain' ? direction : null}
+              onClick={() => this.dispatchFunction({ type: 'CHANGE_SORT', column: 'chain' })}
+              textAlign='right'
+            >
+              Chain
+            </Table.HeaderCell>
+            <Table.HeaderCell className='theadR'
+              sorted={column === 'address' ? direction : null}
+              onClick={() => this.dispatchFunction({ type: 'CHANGE_SORT', column: 'address' })}
+              textAlign='right'
+            >
+              Address
+            </Table.HeaderCell>
           </Table.Row>
-        ))}
-      </Table.Body>
-    </Table>
-  )
+        </Table.Header>
+        
+        <Table.Body>
+          {lists.slice(0, 5).map(this.tokenRenderer)}
+        </Table.Body>
+      </Table>
+    )
+  }
 }
 
-export default TableSortable
+const mapStateToProps = (state) => {
+  return {
+    lists: state.lists,
+  }
+};
+
+const mapDispatchToProps = {
+  retrieveLists, 
+  retrieveChainId,
+  findItemsByText
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TableSortable);

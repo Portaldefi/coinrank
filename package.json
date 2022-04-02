@@ -3,19 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^0.26.1",
     "concurrently": "^7.0.0",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.2.2",
     "react-scripts": "4.0.3",
     "request": "^2.88.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.2",
     "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@fabric/core": "martindale/fabric#swaps-develop",
+    "@fabric/http": "FabricLabs/fabric-http#portal-develop"
   },
   "scripts": {
     "start": "react-scripts start",

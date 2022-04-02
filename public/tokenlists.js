@@ -32,12 +32,16 @@ function getListURLFromListID(listID) {
 var request = require('request');
 
 function getJSON(url, callback){
-  request.get(url, function (error, response, body) {
+  request.get(url, {
+    timeout: 2000,
+  }, function (error, response, body) {
       if (!error && response.statusCode == 200) {
           var csv = body;
           // Continue with your processing here.
           let data = JSON.parse(csv);
-          callback(error, data)
+          callback(null, data)
+      } else {
+        callback(error);
       }
   });
 }
@@ -188,51 +192,91 @@ function getLists(chainId, cb){
     return;
   }
 
-  getJSON('https://raw.githubusercontent.com/Uniswap/tokenlists-org/master/src/token-lists.json', function(status, data){
-    console.log("TOKEN LISTS", status, data);
+  getJSON('https://raw.githubusercontent.com/Uniswap/tokenlists-org/master/src/token-lists.json', function(error, data){
+    console.log("TOKEN LISTS", error, data);
 
     //cb(data);
 
+    if (error) {
+      return;
+    }
     let lists = data;//JSON.parse(data);
     let keys = Object.keys(lists);
-
+    
     console.log("LISTS", keys.length, keys);
-
-    function loadList(i){
-      if(!keys[i]){
-        console.log("FINISHED LOADING LISTS")
-        done();
-        return;
-      }
-
-      let list = lists[keys[i]];
-      let url = getListURLFromListID(keys[i]);
+    const retrieveDataPromise = (key, i) => new Promise((resolve, reject) => {
+      let list = lists[key];
+      let url = getListURLFromListID(key);
 
       var skip = false;
       if(url.includes("0_0_0") || i == 12 || i == 20 || i == 22) skip = true;
 
-      console.log("LOADING LIST", list.name, i, "/", keys.length, keys[i], (url != keys[i] ? url : "") );
+      console.log("LOADING LIST", list.name, i, "/", keys.length, key, (url != key ? url : "") );
 
       if(!skip){
-        getJSON(url, function(status, data){
+        getJSON(url, function(error, data){
           //console.log(status, data);
+          if(error) {
+            console.log("ERROR", i);
+            resolve([]);
+            return;
+          }
           console.log("LOADED", i, null);
 
           if(data){
-            tokenLists.push(data);
             processList(data);
+            resolve(data);
+          } else {
+            resolve([]);
           }
 
-          loadList(i+1);
         })
-      }else{
+      } else {
         console.log("SKIPPING", i, list.name )
-        loadList(i+1);
+        resolve([]);
       }
+    });
+    Promise.all(keys.map(retrieveDataPromise)).then(result => {
+      tokenLists = result.reduce((res, arr) => res.concat(arr), []);
+      let ranked = rankTokens(chainId);
+      console.log("RANKED", ranked.length)
+      cb(ranked);
+    }).catch(error => {console.log(error)});
+    // keys.forEach((key, i) => {
+    //   if(!key){
+    //     console.log("FINISHED LOADING LISTS")
+    //     done();
+    //     return;
+    //   }
 
-    }
+    //   let list = lists[key];
+    //   let url = getListURLFromListID(key);
 
-    loadList(0);
+    //   var skip = false;
+    //   if(url.includes("0_0_0") || i == 12 || i == 20 || i == 22) skip = true;
+
+    //   console.log("LOADING LIST", list.name, i, "/", keys.length, key, (url != key ? url : "") );
+
+    //   if(!skip){
+    //     getJSON(url, function(error, data){
+    //       //console.log(status, data);
+    //       if(error) {
+    //         console.log("ERROR", i, error);
+    //         return;
+    //       }
+    //       console.log("LOADED", i, null);
+
+    //       if(data){
+    //         tokenLists.push(data);
+    //         processList(data);
+    //       }
+
+    //     })
+    //   }else{
+    //     console.log("SKIPPING", i, list.name )
+    //   }
+
+    // });
   })
 }
 
