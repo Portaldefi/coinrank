@@ -41,6 +41,9 @@ class TableSortable extends Component {
     if (!_.isEqual(this.props.lists, nextProps.lists)) {
       return true;
     }
+    if (!_.isEqual(this.props.filters, nextProps.filters)) {
+      return true;
+    }
     return false;
   }
   
@@ -86,8 +89,7 @@ class TableSortable extends Component {
 
   render() {
     const { column, direction, data } = this.state;
-    const { lists } = this.props;
-    console.log(lists);
+    const { lists, filters } = this.props;
 
     return (
       <Table sortable celled className='tableList'>
@@ -124,7 +126,12 @@ class TableSortable extends Component {
         </Table.Header>
         
         <Table.Body>
-          {lists.slice(0, 5).map(this.tokenRenderer)}
+          {lists.filter(list => {
+            if (filters.sources.length > 0 && filters.sources.every(source => !list.lists.includes(source))) {
+              return false;
+            }
+            return true;
+          }).slice(0, 5).map(this.tokenRenderer)}
         </Table.Body>
       </Table>
     )
@@ -134,6 +141,7 @@ class TableSortable extends Component {
 const mapStateToProps = (state) => {
   return {
     lists: state.lists,
+    filters: state.filters,
   }
 };
 

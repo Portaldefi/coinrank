@@ -1,6 +1,9 @@
 import _ from 'lodash'
-import React, { useState } from 'react'
-import { Search, Grid, Header, Segment, Transition, Dropdown, Icon, Input, Button } from 'semantic-ui-react'
+import React, { useState, useCallback, useMemo } from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import { Search, Grid, Header, Segment, Transition, Dropdown, Icon, Input, Button } from 'semantic-ui-react';
+
+import { updateSources, updateChains, updateSearchTerm, clearSearchTerm } from '../slices/filters';
 
 const listOptions = [
   {
@@ -167,28 +170,30 @@ function exampleReducer(state, action) {
   }
 }
 
-function TableFilter() {
-  const [state, dispatch] = React.useReducer(exampleReducer, initialState);
+function TableFilter({}) {
+  const [state, _dispatch] = React.useReducer(exampleReducer, initialState);
   const { loading, results, value } = state;
   const [showFilters, toggleFilters] = useState(false);
+  const lists = useSelector(state => state.lists);
+  const dispatch = useDispatch();
 
   const timeoutRef = React.useRef();
   const handleSearchChange = React.useCallback((e, data) => {
     clearTimeout(timeoutRef.current)
-    dispatch({ type: 'START_SEARCH', query: data.value })
+    _dispatch({ type: 'START_SEARCH', query: data.value })
 
     timeoutRef.current = setTimeout(() => {
       if (data.value.length === 0) {
-        dispatch({ type: 'CLEAN_QUERY' })
+        _dispatch({ type: 'CLEAN_QUERY' })
         return
       }
 
       const re = new RegExp(_.escapeRegExp(data.value), 'i')
-      const isMatch = (result) => re.test(result.title)
+      const isMatch = (result) => re.test(result.name)
 
-      dispatch({
+      _dispatch({
         type: 'FINISH_SEARCH',
-        results: _.filter(source, isMatch),
+        results: _.filter(lists, isMatch),
       })
     }, 300)
   }, []);
@@ -197,6 +202,30 @@ function TableFilter() {
       clearTimeout(timeoutRef.current)
     }
   }, []);
+
+  const handleSourceChange = useCallback((e, { value: sources }) => {
+    dispatch(updateSources(sources));
+  }, []);
+  
+  const handleChainChange = useCallback((e, { value: chains }) => {
+    dispatch(updateChains(chains));
+  }, []);
+
+  const sourceOptions = useMemo(() => {
+    const sources = new Set();
+    for (let list of lists) {
+      if (list.lists && list.lists.length > 0) {
+        for (let source of list.lists) {
+          sources.add(source);
+        }
+      }
+    }
+    return [...sources].map(source => ({
+      key: source.split(/[\s-]/).map(word => word.toLowerCase()).join('-'),
+      text: source,
+      value: source
+    })).sort((prev, next) => prev.key.localeCompare(next.key));
+  }, [lists]);
 
   return (
     <Grid>
@@ -230,7 +259,7 @@ function TableFilter() {
             loading={loading}
             placeholder='Search...'
             onResultSelect={(e, data) =>
-              dispatch({ type: 'UPDATE_SELECTION', selection: data.result.title })
+              _dispatch({ type: 'UPDATE_SELECTION', selection: data.result.title })
             }
             onSearchChange={handleSearchChange}
             results={results}
@@ -253,7 +282,8 @@ function TableFilter() {
               multiple
               search
               selection
-              options={listOptions}
+              options={sourceOptions}
+              onChange={handleSourceChange}
               className='dropdownMenu'
             />
           </Grid.Column>
@@ -266,6 +296,7 @@ function TableFilter() {
               search
               selection
               options={chainOptions}
+              onChange={handleChainChange}
               className='dropdownMenu'
             />
           </Grid.Column>
@@ -275,4 +306,4 @@ function TableFilter() {
   )
 }
 
-export default TableFilter
+export default TableFilter;
