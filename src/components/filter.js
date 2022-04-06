@@ -3,7 +3,7 @@ import React, { useState, useCallback, useMemo } from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { Search, Grid, Header, Segment, Transition, Dropdown, Icon, Input, Button } from 'semantic-ui-react';
 
-import { updateSources, updateChains, updateSearchTerm, clearSearchTerm } from '../slices/filters';
+import { updateSources, updateChains, updatePageIndex, updatePageSize, updateSearchTerm, clearSearchTerm } from '../slices/filters';
 
 const listOptions = [
   {
@@ -67,47 +67,47 @@ const listOptions = [
   }
 ];
 const chainOptions = [
-  {
-    key: 'bitcoin',
-    text: 'Bitcoin',
-    value: 'bitcoin'
-  },
-  {
-    key: 'avalanche',
-    text: 'Avalanche',
-    value: 'avalanche',
+  // {
+  //   key: 'bitcoin',
+  //   text: 'Bitcoin',
+  //   value: 'bitcoin'
+  // },
+  // {
+  //   key: 'avalanche',
+  //   text: 'Avalanche',
+  //   value: 'avalanche',
 
-  },
+  // },
   {
     key: 'binance',
     text: 'Binance',
-    value: 'binance',
+    value: '3',
 
   },
-  {
-    key: 'cosmos',
-    text: 'Cosmos',
-    value: 'cosmos',
+  // {
+  //   key: 'cosmos',
+  //   text: 'Cosmos',
+  //   value: 'cosmos',
 
-  },
+  // },
   {
     key: 'ethereum',
     text: 'Ethereum',
     value: '1',
 
   },
-  {
-    key: 'polkadot',
-    text: 'Polkadot',
-    value: 'polkadot',
+  // {
+  //   key: 'polkadot',
+  //   text: 'Polkadot',
+  //   value: 'polkadot',
 
-  },
-  {
-    key: 'solana',
-    text: 'Solana',
-    value: 'solana',
+  // },
+  // {
+  //   key: 'solana',
+  //   text: 'Solana',
+  //   value: 'solana',
 
-  }
+  // }
 ];
 const showOptions = [
   {
@@ -208,7 +208,11 @@ function TableFilter({}) {
   }, []);
   
   const handleChainChange = useCallback((e, { value: chains }) => {
-    dispatch(updateChains(chains));
+    dispatch(updateChains([chains]));
+  }, []);
+
+  const handlePageSizeChange = useCallback((e, { value: pageSize }) => {
+    dispatch(updatePageSize(pageSize));
   }, []);
 
   const sourceOptions = useMemo(() => {
@@ -236,6 +240,7 @@ function TableFilter({}) {
               inline
               options={showOptions}
               defaultValue={showOptions[0].value}
+              onChange={handlePageSizeChange}
             />
         </Grid.Column>
         <Grid.Column floated='left' width={3} textAlign='left' verticalAlign='bottom' style={{color: '#fff'}}>
@@ -292,10 +297,10 @@ function TableFilter({}) {
             <Dropdown
               placeholder='Chain'
               fluid
-              multiple
               search
               selection
               options={chainOptions}
+              defaultValue={chainOptions[1].value}
               onChange={handleChainChange}
               className='dropdownMenu'
             />

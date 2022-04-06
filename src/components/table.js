@@ -18,8 +18,6 @@ const tableData = [
 // 4k+ tokens
 // name symbol address  decimals logoURI chainID lists listLength urlOfList 
 
-
-
 class TableSortable extends Component {
   constructor(props) {
     super(props);
@@ -42,6 +40,10 @@ class TableSortable extends Component {
       return true;
     }
     if (!_.isEqual(this.props.filters, nextProps.filters)) {
+      if (!_.isEqual(this.props.filters.chains, nextProps.filters.chains)) {
+        this.props.retrieveChainId(nextProps.filters.chains[0]);
+        return false;
+      }
       return true;
     }
     return false;
@@ -90,6 +92,7 @@ class TableSortable extends Component {
   render() {
     const { column, direction, data } = this.state;
     const { lists, filters } = this.props;
+    const { page, pageSize } = filters;
 
     return (
       <Table sortable celled className='tableList'>
@@ -131,7 +134,7 @@ class TableSortable extends Component {
               return false;
             }
             return true;
-          }).slice(0, 5).map(this.tokenRenderer)}
+          }).slice(page * pageSize, (page + 1) * pageSize).map(this.tokenRenderer)}
         </Table.Body>
       </Table>
     )
