@@ -14,21 +14,24 @@ class PaginationReact extends Component {
 
 
     this.state = Object.assign({
-      pageCount: 105,
+      pageCount: 1,
     });
 
     this.handlePaginationChange = this.handlePaginationChange.bind(this);
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (!_.isEqual(this.props.lists, nextProps.lists)) {
       this.setState({pageCount: Math.ceil(nextProps.lists.length / nextProps.filters.pageSize)});
-      return true;
+      return false;
     }
     if (!_.isEqual(this.props.filters, nextProps.filters)) {
       if (this.props.filters.pageSize !== nextProps.filters.pageSize) {
         this.setState({pageCount: Math.ceil(nextProps.lists.length / nextProps.filters.pageSize)});
       }
+      return false;
+    }
+    if (!_.isEqual(this.state, nextState)) {
       return true;
     }
     return false;
