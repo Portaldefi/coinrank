@@ -1,9 +1,10 @@
-import _ from 'lodash'
-import React, { useState, useCallback, useMemo } from 'react'
+import _, { filter } from 'lodash'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { Search, Grid, Header, Segment, Transition, Dropdown, Icon, Input, Button } from 'semantic-ui-react';
+import { Search, Grid, Header, Segment, Transition, Dropdown, Icon, Input, Button, Label } from 'semantic-ui-react';
 
 import { updateSources, updateChains, updatePageIndex, updatePageSize, updateSearchTerm, clearSearchTerm } from '../slices/filters';
+import { updateList } from '../slices/filteredList';
 
 const listOptions = [
   {
@@ -175,6 +176,7 @@ function TableFilter({}) {
   const { loading, results, value } = state;
   const [showFilters, toggleFilters] = useState(false);
   const lists = useSelector(state => state.lists);
+  const filters = useSelector(state => state.filters);
   const dispatch = useDispatch();
 
   const timeoutRef = React.useRef();
@@ -193,10 +195,13 @@ function TableFilter({}) {
 
       _dispatch({
         type: 'FINISH_SEARCH',
-        results: _.filter(lists, isMatch),
+        results: _.filter(lists, isMatch).map(result => ({
+          title: result.name,
+          key: result.address
+        })),
       })
     }, 300)
-  }, []);
+  }, [lists]);
   React.useEffect(() => {
     return () => {
       clearTimeout(timeoutRef.current)
@@ -215,6 +220,8 @@ function TableFilter({}) {
     dispatch(updatePageSize(pageSize));
   }, []);
 
+  const resultRenderer = useCallback(({ title }) => <Label>{title}</Label>, []);
+
   const sourceOptions = useMemo(() => {
     const sources = new Set();
     for (let list of lists) {
@@ -230,6 +237,23 @@ function TableFilter({}) {
       value: source
     })).sort((prev, next) => prev.key.localeCompare(next.key));
   }, [lists]);
+
+  useEffect(() => {
+    dispatch(updateSearchTerm(value));
+  }, [value]);
+
+  useEffect(() => {
+    dispatch(updateList(lists.filter(list => {
+      if (filters.sources.length > 0 && filters.sources.every(source => !list.lists.includes(source))) {
+        return false;
+      }
+      if (filters.searchTerm && filters.searchTerm !== "" && list.name.toLowerCase().search(filters.searchTerm.toLowerCase()) < 0) {
+        console.log(filters.searchTerm, list.name)
+        return false;
+      }
+      return true;
+    })));
+  }, [lists, filters]);
 
   return (
     <Grid>
@@ -267,6 +291,7 @@ function TableFilter({}) {
               _dispatch({ type: 'UPDATE_SELECTION', selection: data.result.title })
             }
             onSearchChange={handleSearchChange}
+            resultRenderer={resultRenderer}
             results={results}
             value={value} />
         </Grid.Column>

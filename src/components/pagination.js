@@ -58,7 +58,7 @@ class PaginationReact extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    lists: state.lists,
+    lists: state.filteredList,
     filters: state.filters,
   }
 };

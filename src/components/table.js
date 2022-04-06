@@ -129,12 +129,7 @@ class TableSortable extends Component {
         </Table.Header>
         
         <Table.Body>
-          {lists.filter(list => {
-            if (filters.sources.length > 0 && filters.sources.every(source => !list.lists.includes(source))) {
-              return false;
-            }
-            return true;
-          }).slice(page * pageSize, (page + 1) * pageSize).map(this.tokenRenderer)}
+          {lists.slice(page * pageSize, (page + 1) * pageSize).map(this.tokenRenderer)}
         </Table.Body>
       </Table>
     )
@@ -143,7 +138,7 @@ class TableSortable extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    lists: state.lists,
+    lists: state.filteredList,
     filters: state.filters,
   }
 };
