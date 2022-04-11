@@ -4,6 +4,8 @@ const initialFilter = {
   sources: [],
   chains: [1],
   searchTerm: '',
+  sort: '',
+  sortDirection: 'asc',
   page: 0,
   pageSize: 5,
 };
@@ -27,13 +29,25 @@ const filterSlice = createSlice({
     updatePageSize: (state, action) => {
       state.pageSize = action.payload;
     },
+    updateSort: (state, action) => {
+      if (state.sort === action.payload) {
+        if (state.sortDirection === 'asc') {
+          state.sortDirection = 'desc';
+        } else {
+          state.sortDirection = 'asc';
+        }
+      } else {
+        state.sort = action.payload;
+        state.sortDirection = 'asc';
+      }
+    },
     clearSearchTerm: (state, action) => {
       state.searchTerm = '';
     }
   },
 });
 
-export const { updateSources, updateChains, updateSearchTerm, updatePageIndex, updatePageSize, clearSearchTerm } = filterSlice.actions;
+export const { updateSources, updateChains, updateSearchTerm, updatePageIndex, updatePageSize, updateSort, clearSearchTerm } = filterSlice.actions;
 
 const { reducer } = filterSlice;
 

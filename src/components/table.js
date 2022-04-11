@@ -6,7 +6,8 @@ import { Table, Icon } from 'semantic-ui-react';
 // Fabric Types
 // import FabricComponent from '@fabric/http';
 
-import { retrieveLists, retrieveChainId, findItemsByText, changeSort } from '../slices/lists'
+import { retrieveLists, retrieveChainId, findItemsByText, changeSort } from '../slices/lists';
+import { updateSort } from '../slices/filters';
 
 const tableData = [
   { name: 'Bitcoin', chain: 'bitcoin', symbol: 'BTC', icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png', tags: [], address: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" },
@@ -100,27 +101,27 @@ class TableSortable extends Component {
           <Table.Row >
             <Table.HeaderCell className='theadL'
               sorted={column === 'name' ? direction : null}
-              onClick={() => this.dispatchFunction({ type: 'CHANGE_SORT', column: 'name' })}
+              onClick={() => this.props.updateSort('name')}
             >
               Name
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'symbol' ? direction : null}
-              onClick={() => this.dispatchFunction({ type: 'CHANGE_SORT', column: 'symbol' })}
+              onClick={() => this.props.updateSort('symbol')}
               textAlign='right'
             >
               Symbol
             </Table.HeaderCell>
             <Table.HeaderCell
               sorted={column === 'chain' ? direction : null}
-              onClick={() => this.dispatchFunction({ type: 'CHANGE_SORT', column: 'chain' })}
+              onClick={() => this.props.updateSort('chain')}
               textAlign='right'
             >
               Chain
             </Table.HeaderCell>
             <Table.HeaderCell className='theadR'
               sorted={column === 'address' ? direction : null}
-              onClick={() => this.dispatchFunction({ type: 'CHANGE_SORT', column: 'address' })}
+              onClick={() => this.props.updateSort('address')}
               textAlign='right'
             >
               Address
@@ -146,6 +147,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   retrieveLists, 
   retrieveChainId,
-  findItemsByText
+  findItemsByText,
+  updateSort,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TableSortable);

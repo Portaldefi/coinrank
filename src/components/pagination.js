@@ -29,6 +29,9 @@ class PaginationReact extends Component {
       if (this.props.filters.pageSize !== nextProps.filters.pageSize) {
         this.setState({pageCount: Math.ceil(nextProps.lists.length / nextProps.filters.pageSize)});
       }
+      if (this.props.filters.page !== nextProps.filters.page) {
+        return true;
+      }
       return false;
     }
     if (!_.isEqual(this.state, nextState)) {
@@ -45,6 +48,7 @@ class PaginationReact extends Component {
     const { pageCount } = this.state;
     const { lists, filters } = this.props;
     const { page, pageSize } = filters;
+    console.log(filters);
 
     return (
       <Pagination

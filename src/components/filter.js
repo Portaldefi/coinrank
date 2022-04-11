@@ -248,10 +248,37 @@ function TableFilter({}) {
         return false;
       }
       if (filters.searchTerm && filters.searchTerm !== "" && list.name.toLowerCase().search(filters.searchTerm.toLowerCase()) < 0) {
-        console.log(filters.searchTerm, list.name)
         return false;
       }
       return true;
+    }).sort((prev, next) => {
+      if (filters.sort) {
+        if (filters.sortDirection === 'asc') {
+          switch(filters.sort) {
+            case 'name':
+              return prev.name.localeCompare(next.name);
+            case 'symbol':
+              return prev.symbol.localeCompare(next.symbol);
+            case 'address':
+              return prev.address.localeCompare(next.address);
+            default:
+              return true;
+          }
+        } else if(filters.sortDirection === 'desc') {
+          switch(filters.sort) {
+            case 'name':
+              return next.name.localeCompare(prev.name);
+            case 'symbol':
+              return next.symbol.localeCompare(prev.symbol);
+            case 'address':
+              return next.address.localeCompare(prev.address);
+            default:
+              return true;
+          }
+        }
+      } else {
+        return true;
+      }
     })));
   }, [lists, filters]);
 
