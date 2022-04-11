@@ -46,6 +46,16 @@ code {
 
 
 
+.section {
+  display: table;
+  float: left;
+  width: 100%;
+  text-align: center;
+  min-width: 1160px;
+  position: relative;
+  padding: 30px 15px;
+  table-layout: fixed;
+}
 .section.footer {
   background: url("https://github.com/FabricLabs/portaldefi.com/blob/122ba2ba7d0962b639ca34df2d2fa67b1520ab55/assets/images/black-fade") repeat-x center;
   background-size: cover;
@@ -68,16 +78,6 @@ code {
   color: #FFFFFF;
   letter-spacing: -0.46px;
   line-height: 28px;
-}
-.section {
-  display: table;
-  float: left;
-  width: 100%;
-  text-align: center;
-  min-width: 1160px;
-  position: relative;
-  padding: 30px 0;
-  table-layout: fixed;
 }
 ul.feature-resources {
   list-style: none;
