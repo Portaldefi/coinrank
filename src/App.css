@@ -1,5 +1,6 @@
 body {
   background-image: linear-gradient(50deg, #075F91 30%, #941662 120%);
+  background-size: 100% 150%;
   font-family: "AvenirNext-Medium";
 }
 
@@ -46,7 +47,7 @@ body {
 
 .filterOptions {
   background-color: rgba(234,21,141,0.3);
-  margin: 1em;
+  margin: 0.9em;
   margin-top: 0;
   border-radius: 8px;
   height: max-content;
@@ -64,16 +65,32 @@ body {
   height: inherit;
 }
 
+table .table {
+  display:inline-block; 
+  position:relative;
+}
 .tableList, 
 .ui.search .prompt, 
 .dropdownMenu  {
+  -webkit-border-radius: 8px !important;
+  -moz-border-radius: 8px !important;
+  -khtml-border-radius: 8px !important;
   border-radius: 8px !important;
+  -webkit-border-top-left-radius: 8px !important;
+  -webkit-border-top-right-radius: 8px !important;
+  -webkit-border-bottom-right-radius: 8px !important;
+  -webkit-border-bottom-left-radius: 8px !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 .theadL {
   border-radius: 8px 0px 0px 0px !important;
+  -webkit-border-top-left-radius: 8px !important;
 }
 .theadR {
   border-radius: 0px 8px 0px 0px !important;
+  -webkit-border-top-right-radius: 8px !important;
 }
 
 @keyframes App-logo-spin {
