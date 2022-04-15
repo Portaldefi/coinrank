@@ -30,7 +30,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently \"node ./src/server.js\" \"react-scripts start\"",
-    "serve": "concurrently \"node ./src/server.js\" \"react-scripts build\""
+    "serve": "concurrently \"node ./src/server.js\" \"react-scripts build && serve -s build\""
   },
   "eslintConfig": {
     "extends": [
