@@ -23,8 +23,6 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@fabric/core": "martindale/fabric#swaps-develop",
-    "@fabric/http": "FabricLabs/fabric-http#portal-develop"
   },
   "scripts": {
     "start": "react-scripts start",
