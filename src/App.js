@@ -4,7 +4,7 @@ import { Container, Grid, Header, Image } from 'semantic-ui-react';
 import TableSortable from './components/table';
 import TableFilter from './components/filter';
 import TablePagination from './components/pagination';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
 
 
 class App extends Component {

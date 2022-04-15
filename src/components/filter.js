@@ -1,72 +1,82 @@
-import _, { filter } from 'lodash'
+import _
+// , { filter }
+ from 'lodash'
 import React, { useState, useCallback, useMemo, useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { Search, Grid, Header, Segment, Transition, Dropdown, Icon, Input, Button, Label } from 'semantic-ui-react';
+import { Search, Grid, Header, 
+  // Segment, 
+  Transition, Dropdown, 
+  // Icon, Input, 
+  Button, Label } from 'semantic-ui-react';
 
-import { updateSources, updateChains, updatePageIndex, updatePageSize, updateSearchTerm, clearSearchTerm } from '../slices/filters';
+import { updateSources, updateChains, 
+  // updatePageIndex, 
+  updatePageSize, updateSearchTerm
+  // , clearSearchTerm
+} from '../slices/filters';
 import { updateList } from '../slices/filteredList';
 
-const listOptions = [
-  {
-    key: '1inch',
-    text: '1inch',
-    value: '1inch'
-  },
-  {
-    key: 'cmc-defi',
-    text: 'CMC DeFi',
-    value: 'cmc-defi',
+// const listOptions = [
+//   {
+//     key: '1inch',
+//     text: '1inch',
+//     value: '1inch'
+//   },
+//   {
+//     key: 'cmc-defi',
+//     text: 'CMC DeFi',
+//     value: 'cmc-defi',
 
-  },
-  {
-    key: 'cmc-stablecoin',
-    text: 'CMC Stablecoin',
-    value: 'cmc-stablecoin',
-  },
-  {
-    key: 'cmc200-erc20',
-    text: 'CMC200 ERC20',
-    value: 'cmc200-erc20',
-  },
-  {
-    key: 'coingecko',
-    text: 'CoinGecko',
-    value: 'coingecko',
+//   },
+//   {
+//     key: 'cmc-stablecoin',
+//     text: 'CMC Stablecoin',
+//     value: 'cmc-stablecoin',
+//   },
+//   {
+//     key: 'cmc200-erc20',
+//     text: 'CMC200 ERC20',
+//     value: 'cmc200-erc20',
+//   },
+//   {
+//     key: 'coingecko',
+//     text: 'CoinGecko',
+//     value: 'coingecko',
 
-  },
-  {
-    key: 'coingecko-defi-100',
-    text: 'CoinGecko DeFi 100',
-    value: 'coingecko-defi-100',
-  },
-  {
-    key: 'compound',
-    text: 'Compound',
-    value: 'compound',
+//   },
+//   {
+//     key: 'coingecko-defi-100',
+//     text: 'CoinGecko DeFi 100',
+//     value: 'coingecko-defi-100',
+//   },
+//   {
+//     key: 'compound',
+//     text: 'Compound',
+//     value: 'compound',
 
-  },
-  {
-    key: 'uniswap-labs-list',
-    text: 'Uniswap Labs List',
-    value: 'uniswap-labs-list',
-  },
-  {
-    key: 'wrapped-tokens',
-    text: 'Wrapped Tokens',
-    value: 'wrapped-tokens',
-  },
-  {
-    key: 'yearn',
-    text: 'Yearn',
-    value: 'yearn',
+//   },
+//   {
+//     key: 'uniswap-labs-list',
+//     text: 'Uniswap Labs List',
+//     value: 'uniswap-labs-list',
+//   },
+//   {
+//     key: 'wrapped-tokens',
+//     text: 'Wrapped Tokens',
+//     value: 'wrapped-tokens',
+//   },
+//   {
+//     key: 'yearn',
+//     text: 'Yearn',
+//     value: 'yearn',
 
-  },
-  {
-    key: 'zapper-token-list',
-    text: 'Zapper Token List',
-    value: 'zapper-token-list',
-  }
-];
+//   },
+//   {
+//     key: 'zapper-token-list',
+//     text: 'Zapper Token List',
+//     value: 'zapper-token-list',
+//   }
+// ];
 const chainOptions = [
   // {
   //   key: 'bitcoin',
@@ -142,12 +152,12 @@ const showOptions = [
   },
 ];
 
-const source = [{
-  title: '',
-  description: '',
-  image: '',
-  price: '',}
-];
+// const source = [{
+//   title: '',
+//   description: '',
+//   image: '',
+//   price: '',}
+// ];
 
 const initialState = {
   loading: false,
@@ -171,7 +181,7 @@ function exampleReducer(state, action) {
   }
 }
 
-function TableFilter({}) {
+function TableFilter() {
   const [state, _dispatch] = React.useReducer(exampleReducer, initialState);
   const { loading, results, value } = state;
   const [showFilters, toggleFilters] = useState(false);
@@ -209,15 +219,15 @@ function TableFilter({}) {
   }, []);
 
   const handleSourceChange = useCallback((e, { value: sources }) => {
-    dispatch(updateSources(sources));
+    dispatch(updateSources(sources));// eslint-disable-next-line
   }, []);
   
   const handleChainChange = useCallback((e, { value: chains }) => {
-    dispatch(updateChains([chains]));
+    dispatch(updateChains([chains]));// eslint-disable-next-line
   }, []);
 
   const handlePageSizeChange = useCallback((e, { value: pageSize }) => {
-    dispatch(updatePageSize(pageSize));
+    dispatch(updatePageSize(pageSize));// eslint-disable-next-line
   }, []);
 
   const resultRenderer = useCallback(({ title }) => <Label>{title}</Label>, []);
@@ -239,7 +249,7 @@ function TableFilter({}) {
   }, [lists]);
 
   useEffect(() => {
-    dispatch(updateSearchTerm(value));
+    dispatch(updateSearchTerm(value));// eslint-disable-next-line
   }, [value]);
 
   useEffect(() => {
@@ -250,7 +260,7 @@ function TableFilter({}) {
       if (filters.searchTerm && filters.searchTerm !== "" && list.name.toLowerCase().search(filters.searchTerm.toLowerCase()) < 0) {
         return false;
       }
-      return true;
+      return true;// eslint-disable-next-line
     }).sort((prev, next) => {
       if (filters.sort) {
         if (filters.sortDirection === 'asc') {
@@ -279,7 +289,7 @@ function TableFilter({}) {
       } else {
         return true;
       }
-    })));
+    })));// eslint-disable-next-line
   }, [lists, filters]);
 
   return (

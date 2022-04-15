@@ -46,8 +46,12 @@ class PaginationReact extends Component {
   
   render() {
     const { pageCount } = this.state;
-    const { lists, filters } = this.props;
-    const { page, pageSize } = filters;
+    const { 
+      // lists, 
+      filters } = this.props;
+    const { page
+      // , pageSize
+    } = filters;
     console.log(filters);
 
     return (
