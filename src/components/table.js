@@ -84,7 +84,7 @@ class TableSortable extends Component {
         {/* <Table.Cell textAlign='right'>${chain.toFixed(2).toLocaleString()}</Table.Cell> */}
         {/* <Table.Cell textAlign='right'>{changePercentage()}%</Table.Cell> */}
         <Table.Cell textAlign='right'>{symbol}</Table.Cell>
-        <Table.Cell textAlign='right'>{chain}</Table.Cell>
+        {/* <Table.Cell textAlign='right'>{chain}</Table.Cell> */}
         <Table.Cell textAlign='right'>{address}</Table.Cell>
       </Table.Row>
     );
@@ -112,13 +112,13 @@ class TableSortable extends Component {
             >
               Symbol
             </Table.HeaderCell>
-            <Table.HeaderCell
+            {/* <Table.HeaderCell
               sorted={column === 'chain' ? direction : null}
               onClick={() => this.props.updateSort('chain')}
               textAlign='right'
             >
               Chain
-            </Table.HeaderCell>
+            </Table.HeaderCell> */}
             <Table.HeaderCell className='theadR'
               sorted={column === 'address' ? direction : null}
               onClick={() => this.props.updateSort('address')}
