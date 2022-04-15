@@ -28,6 +28,15 @@ body {
   font-size: calc(10px + 2vmin);
   color: white;
   font-family: 'AvenirNext-DemiBold';
+  padding-top: 3em !important;
+  padding-bottom: 1em !important;
+}
+.App img .ui .image{
+  display: inline-block;
+  margin-top: 0.14285714em;
+  width: 2.5em;
+  height: auto;
+  vertical-align: middle;
 }
 .App-body {
   display: flex;
