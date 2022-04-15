@@ -51,15 +51,18 @@ code {
   float: left;
   width: 100%;
   text-align: center;
-  min-width: 1160px;
+  /* min-width: 1160px; */
   position: relative;
   padding: 30px 15px;
   table-layout: fixed;
 }
 .section.footer {
-  background: url("https://github.com/FabricLabs/portaldefi.com/blob/122ba2ba7d0962b639ca34df2d2fa67b1520ab55/assets/images/black-fade") repeat-x center;
+  margin-top: 5em;
+  background: url("https://i.imgur.com/DSaVFMe.png") repeat-x center;
   background-size: cover;
   height: 10vh;
+  position: relative;
+  bottom: 0;  
 }
 
 .section.footer h1 {
@@ -122,8 +125,18 @@ ul.feature-resources li {
 .wrapper .small {
   opacity: 0.8;
   font-family: AvenirNext-Medium;
-  font-size: 14px !important;
+  font-size: 16px !important;
   color: #FFFFFF;
   letter-spacing: -0.46px;
   line-height: 16px;
+  text-align:center;
+  padding-top:2em;
+}
+@media (max-width: 1080px) {
+  p {
+    font-size: 14px !important;
+    letter-spacing: 0px !important;
+    line-height: 24px !important;
+    text-align: center;
+  }
 }
