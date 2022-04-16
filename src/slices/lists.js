@@ -13,14 +13,14 @@ export const retrieveLists = createAsyncThunk(
   "lists/all",
   async () => {
     const res = await ListDataService.getAll();
-    return res.data;
+    return res.data?.contents;
   }
 );
 export const retrieveChainId = createAsyncThunk(
   "lists/findByChain",
   async (chainId) => {
     const res = await ListDataService.get(chainId);
-    return res.data?.tokens;
+    return JSON.parse(res.data?.contents).tokens;
   }
 );
 export const findItemsByText = createAsyncThunk(
