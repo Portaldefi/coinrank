@@ -12,8 +12,22 @@ const initialList = [
 export const retrieveLists = createAsyncThunk(
   "lists/all",
   async () => {
-    const res = await ListDataService.getAll();
-    return res.data?.contents;
+    // const res = await ListDataService.getAll();
+    const res = await Promise.all([
+      ListDataService.get(1),
+      ListDataService.get(2),
+      ListDataService.get(3),
+      ListDataService.get(4),
+      ListDataService.get(5),
+      ListDataService.get(6),
+    ]);
+    // return res.data?.contents;
+    return res.map(res => JSON.parse(res.data?.contents)).reduce((prev, cur) => {
+      return {
+        count: prev.count + cur.count,
+        tokens: [...prev.tokens, ...cur.tokens]
+      };
+    }, { count: 0, tokens: [] }).tokens;
   }
 );
 export const retrieveChainId = createAsyncThunk(

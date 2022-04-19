@@ -6,6 +6,7 @@ import { Table, Icon } from 'semantic-ui-react';
 // Fabric Types
 // import FabricComponent from '@fabric/http';
 
+import { chainOptions } from './filter.js';
 import { retrieveLists, retrieveChainId
   , findItemsByText
   // , changeSort
@@ -26,7 +27,6 @@ class TableSortable extends Component {
   constructor(props) {
     super(props);
 
-
     this.state = Object.assign({
       column: null,
       data: [],
@@ -36,7 +36,7 @@ class TableSortable extends Component {
   }
 
   componentDidMount() {
-    this.props.retrieveChainId(1);
+    this.props.retrieveLists();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -71,10 +71,10 @@ class TableSortable extends Component {
 
   tokenRenderer(token) {
     const { 
-      // chain, 
+      chain, 
       symbol, name, logoURI, address
       // , tags
-     } = token;
+    } = token;
     return (
       <Table.Row key={name}>
         <Table.Cell className="tokenName">
@@ -91,7 +91,7 @@ class TableSortable extends Component {
         {/* <Table.Cell textAlign='right'>${chain.toFixed(2).toLocaleString()}</Table.Cell> */}
         {/* <Table.Cell textAlign='right'>{changePercentage()}%</Table.Cell> */}
         <Table.Cell textAlign='right'>{symbol}</Table.Cell>
-        {/* <Table.Cell textAlign='right'>{chain}</Table.Cell> */}
+        <Table.Cell textAlign='right'>{chain}</Table.Cell>
         <Table.Cell textAlign='right'>{address}</Table.Cell>
       </Table.Row>
     );
@@ -121,13 +121,13 @@ class TableSortable extends Component {
             >
               Symbol
             </Table.HeaderCell>
-            {/* <Table.HeaderCell
+            <Table.HeaderCell
               sorted={column === 'chain' ? direction : null}
               onClick={() => this.props.updateSort('chain')}
               textAlign='right'
             >
               Chain
-            </Table.HeaderCell> */}
+            </Table.HeaderCell>
             <Table.HeaderCell className='theadR'
               sorted={column === 'address' ? direction : null}
               onClick={() => this.props.updateSort('address')}
@@ -139,7 +139,11 @@ class TableSortable extends Component {
         </Table.Header>
         
         <Table.Body>
-          {lists.slice(page * pageSize, (page + 1) * pageSize).map(this.tokenRenderer)}
+          {lists
+            .slice(page * pageSize, (page + 1) * pageSize)
+            .map(list => ({ ...list, chain: chainOptions.find(option => list.chainId == option.value)?.text }))
+            .map(this.tokenRenderer)
+          }
         </Table.Body>
       </Table>
     )

@@ -77,7 +77,7 @@ import { updateList } from '../slices/filteredList';
 //     value: 'zapper-token-list',
 //   }
 // ];
-const chainOptions = [
+export const chainOptions = [
   // {
   //   key: 'bitcoin',
   //   text: 'Bitcoin',
@@ -99,7 +99,6 @@ const chainOptions = [
   //   key: 'cosmos',
   //   text: 'Cosmos',
   //   value: 'cosmos',
-
   // },
   {
     key: 'ethereum',
@@ -362,7 +361,7 @@ function TableFilter() {
               search
               selection
               options={chainOptions}
-              defaultValue={chainOptions[1].value}
+              // defaultValue={chainOptions[1].value}
               onChange={handleChainChange}
               className='dropdownMenu'
             />
