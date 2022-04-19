@@ -141,7 +141,7 @@ class TableSortable extends Component {
         <Table.Body>
           {lists
             .slice(page * pageSize, (page + 1) * pageSize)
-            .map(list => ({ ...list, chain: chainOptions.find(option => list.chainId === option.value)?.text }))
+            .map(list => ({ ...list, chain: chainOptions.find(option => list.chainId == option.value)?.text }))
             .map(this.tokenRenderer)
           }
         </Table.Body>
