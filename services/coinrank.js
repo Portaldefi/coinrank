@@ -4,6 +4,8 @@ const merge = require('lodash.merge');
 const Service = require('@fabric/core/types/service');
 const HTTPServer = require('@fabric/http/types/server');
 
+const listAssets = require('../functions/listAssets');
+
 class Coinrank extends Service {
   constructor (settings = {}) {
     super(settings);
@@ -23,6 +25,10 @@ class Coinrank extends Service {
     };
 
     return this;
+  }
+
+  get assets () {
+    return listAssets();
   }
 
   async start () {
