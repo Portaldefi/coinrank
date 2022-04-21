@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <Container className='App'>
         <Header className="App-header" as='h1' inverted textAlign='center'>
-          Token Rank
+          Coin Rank
           <span style={{fontSize:14, fontWeight:200}}>by </span><Image src="https://portaldefi.com/assets/portal-logo.gif" alt="Portal Logo" />
         </Header>
         <Grid textAlign='center' className="App-body">
